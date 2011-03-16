@@ -1,0 +1,40 @@
+;;; Parses mathematical expressions using Recursive Descent
+
+(define (number stmt)
+  (cond ((null? stmt)
+         (valid-expr))
+        ((expect? 'number (car stmt))
+         (operator (cdr stmt)))
+        (else (display "Expected a number, got an operator or expression.\n")
+              (display stmt)
+              (newline)
+              #f)))
+          
+(define (operator stmt)
+  (cond ((null? stmt)
+         (valid-expr))
+        ((expect? 'operator (car stmt))
+         (number (cdr stmt)))
+        (else (display "Expected an operator or expression, got a number.\n")
+              (display stmt)
+              (newline)
+              #f)))
+
+(define (expect? type sym)
+  (cond ((null? sym)
+         #t)
+        ((eq? type 'operator)
+         (member sym '(#\+ #\- #\* #\/ #\% #\=)))
+        ((eq? type 'number)
+         (number? (- (char->integer sym) 48)))
+        (else #f)))
+
+(define (parse stmt)
+  (if (expect? 'number (car stmt))
+      (number stmt)
+      (begin
+        (display "Expecting a number to begin the equation.\n")
+        #f)))
+      
+(define (valid-expr)
+  #t)

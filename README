@@ -1,0 +1,14 @@
+Scheme Infix Calculator
+Andrew Levenson, 2011
+
+Written in Guile Scheme 1.8.8
+
+This project comes with the "it works on my machine" guarantee. Nothing else. I'd like to say it's released under the GPL, but I'm not sure exactly what that means. 
+
+I'll just say, it's free to share, modify, manipulate, burn, whatever. If you see fit, credit me accordingly. If not, boo.
+
+Work it by loading up "infix-calc.scm" and feeding it expressions like 
+
+     (calc "3+4!*(3-40/2)")
+
+The results should be less than surprising.

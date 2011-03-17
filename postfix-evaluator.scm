@@ -1,8 +1,3 @@
-
-
-
-(set! %load-path (cons "/home/andy/Dropbox/Programming/Scheme" %load-path))
-
 (for-each (lambda (file)
             (load-from-path file))
           '("shunting-yard.scm"))

@@ -17,6 +17,7 @@
         ((eq? char #\-) '-)
         ((eq? char #\*) '*)
         ((eq? char #\/) '/)
+        ((eq? char #\%) 'remainder)
         ((eq? char #\!) 'factorial)
         ((eq? char #\^) 'expt)
         ((eq? char #\=) '=)
@@ -28,12 +29,20 @@
         ((digit-char? (car eqn))
          (%postfix-eval (cdr eqn) (cons (- (char->integer (car eqn)) 48) stack)))
         ((operator? (car eqn))
-         (%postfix-eval (cdr eqn) (cons (eval
-                                         `(,(char->operator (car eqn))
-                                           ,(cadr stack)
-                                           ,(car stack))
-                                         (interaction-environment))
-                                        (cddr stack))))
+         ;; Factorial takes one argument, while all
+         ;; other operators take two arguments.
+         (if (not (eq? (car eqn) #\!))
+             (%postfix-eval (cdr eqn) (cons (eval
+                                             `(,(char->operator (car eqn))
+                                               ,(cadr stack)
+                                               ,(car stack))
+                                             (interaction-environment))
+                                            (cddr stack)))
+             (%postfix-eval (cdr eqn) (cons (eval
+                                             `(,(char->operator (car eqn))
+                                               ,(car stack))
+                                             (interaction-environment))
+                                            (cdr stack)))))
         (else (%postfix-eval (cdr eqn) stack))))
   
 (define (postfix-eval eqn)

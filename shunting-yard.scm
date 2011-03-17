@@ -80,21 +80,6 @@
         ((null? stack) '())
         (else (cons (car stack) (%shunting-yard '() (cdr stack))))))
 
-(define (parse-stack lst)
-    (cond ((null? lst)
-           (display "Unbalanced parenthesis")
-           '())
-          ((not (eq? (car lst) #\())
-           (cons (car lst) (parse-stack (cdr lst))))
-          ((eq? (car lst) #\()
-           '())
-          (else '())))
-
-(define (strip-stack stack)
-  (if (member #\( stack)
-      (cdr (member #\( stack))
-      '()))
-
 ;; Implementation of Dijkstra's Shunting-yard Algorithm
 (define (%shunting-yard stmt stack)
   "Converts infix-notation mathematical equations into
@@ -109,8 +94,9 @@ implementation of Dijkstra's Shunting-yard Algorithm."
         ((eq? (car stmt) #\()
          (%shunting-yard (cdr stmt) (cons (car stmt) stack)))
         ((eq? (car stmt) #\))     
-         (cons (reverse (parse-stack stack))
-               (%shunting-yard (cdr stmt) (strip-stack stack))))))
+         (if (eq? #\( (car stack))
+             (%shunting-yard (cdr stmt) (cdr stack))
+             (cons (car stack) (%shunting-yard stmt (cdr stack)))))))
 
 (define (shunting-yard stmt)
   (%shunting-yard stmt '()))

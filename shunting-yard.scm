@@ -87,7 +87,7 @@ postfix-notation mathematical equations, using an
 implementation of Dijkstra's Shunting-yard Algorithm."
   (cond ((null? stmt)
          (stack-operations stack))
-        ((digit-char? (car stmt))
+        ((number? (car stmt))
          (cons (car stmt) (%shunting-yard (cdr stmt) stack)))
         ((operator? (car stmt))
          (operator-actions stmt stack))

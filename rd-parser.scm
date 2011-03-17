@@ -30,7 +30,7 @@
         ((eq? type 'operator)
          (member sym '(#\+ #\- #\* #\/ #\% #\= #\! #\^ #\< #\>)))
         ((eq? type 'number)
-         (digit-char? sym))
+         (number? sym))
         ((eq? type 'expression-open)
          (member #\) stmt))
         ((eq? type 'expression-close)

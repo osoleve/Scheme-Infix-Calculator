@@ -26,8 +26,8 @@
 
 (define (%postfix-eval eqn stack)
   (cond ((null? eqn) stack)
-        ((digit-char? (car eqn))
-         (%postfix-eval (cdr eqn) (cons (- (char->integer (car eqn)) 48) stack)))
+        ((number? (car eqn))
+         (%postfix-eval (cdr eqn) (cons (car eqn) stack)))
         ((operator? (car eqn))
          ;; Factorial takes one argument, while all
          ;; other operators take two arguments.

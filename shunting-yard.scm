@@ -17,19 +17,34 @@
     ((#\+ #\-)     2)
     ((#\* #\/ #\%) 3)
     ((#\^ #\!)     4)
-    (else          5)))
+    (else          0)))
 
 ;; Returns the last element of a list
 (define (last lst)
   (if (null? (cdr lst))
-      lst
+      (car lst)
       (last (cdr lst))))
+
+;; (if (not (equal? 3 (last '(1 2 3))))
+;;     (error "last is broken"))
 
 ;; Is the character provided a numerical digit?
 (define (digit-char? char)
   (> 10
      (- (char->integer char) (char->integer #\0))
      (- 1)))
+
+;; (if  (digit-char? #\/)
+;;     (error "digit-char? is broken"))
+
+;; (if (not (digit-char? #\0))
+;;     (error "digit-char? is broken"))
+
+;; (if (not (digit-char? #\9))
+;;     (error "digit-char? is broken"))
+
+;; (if  (digit-char? #\:)
+;;     (error "digit-char? is broken"))
 
 ;; Actions to take if the token in the stmt is an operator
 (define (operator-actions stmt stack)
@@ -48,6 +63,12 @@
            (cons stack-oper (%shunting-yard stmt (cdr stack))))
           (else (%shunting-yard (cdr stmt) (cons (car stmt) stack))))))
 
+;; Obviously this makes no sense; it's just a suggestion for the
+;; _structure_ of a real test.
+;; (if (not (equal? 'frotz
+;;                  (operator-actions (list #\( 4 '+ 4 #\)) (list) cons)))
+;;     (error "some other case of operator-actions is broken"))
+
 ;; Actions to take if (null? stmt)
 (define (stack-operations stack)
   ;; If a left-parenthesis is found on the stack,
@@ -59,12 +80,7 @@
         ((null? stack) '())
         (else (cons (car stack) (%shunting-yard '() (cdr stack))))))
 
-;; Implementation of Dijkstra's Shunting-yard Algorithm
-(define (%shunting-yard stmt stack)
-  "Converts infix-notation mathematical equations into
-postfix-notation mathematical equations, using an
-implementation of Dijkstra's Shunting-yard Algorithm."
-  (define (parse-stack lst)
+(define (parse-stack lst)
     (cond ((null? lst)
            (display "Unbalanced parenthesis")
            '())
@@ -73,10 +89,17 @@ implementation of Dijkstra's Shunting-yard Algorithm."
           ((eq? (car lst) #\()
            '())
           (else '())))
-  (define (strip-stack)
-    (if (member (last (parse-stack stack)) stack)
-        (member (last (parse-stack stack)) stack)
-        '()))
+
+(define (strip-stack stack)
+  (if (member #\( stack)
+      (cdr (member #\( stack))
+      '()))
+
+;; Implementation of Dijkstra's Shunting-yard Algorithm
+(define (%shunting-yard stmt stack)
+  "Converts infix-notation mathematical equations into
+postfix-notation mathematical equations, using an
+implementation of Dijkstra's Shunting-yard Algorithm."
   (cond ((null? stmt)
          (stack-operations stack))
         ((digit-char? (car stmt))
@@ -86,8 +109,8 @@ implementation of Dijkstra's Shunting-yard Algorithm."
         ((eq? (car stmt) #\()
          (%shunting-yard (cdr stmt) (cons (car stmt) stack)))
         ((eq? (car stmt) #\))     
-         (cons (parse-stack stack)
-               (%shunting-yard (cdr stmt) (strip-stack))))))
+         (cons (reverse (parse-stack stack))
+               (%shunting-yard (cdr stmt) (strip-stack stack))))))
 
 (define (shunting-yard stmt)
   (%shunting-yard stmt '()))

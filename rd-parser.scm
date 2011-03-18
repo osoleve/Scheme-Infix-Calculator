@@ -32,7 +32,7 @@
         ((eq? type 'number)
          (number? sym))
         ((eq? type 'expression-open)
-         (member #\) stmt))
+         (member #\) (car args)))
         ((eq? type 'expression-close)
          (eq? #\) sym))
         (else #f)))

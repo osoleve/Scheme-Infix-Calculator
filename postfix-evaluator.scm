@@ -39,6 +39,11 @@
   (/ (sine x)))
 
 ;;; /Trig Functions
+
+;;; xCy not yet implemented
+
+(define (choose x y)
+  (/ (expt x y) (factorial y)))
    
 (define (char->operator char)
   (cond ((eq? char #\+) '+)

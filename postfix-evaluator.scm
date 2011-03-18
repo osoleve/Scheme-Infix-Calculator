@@ -7,7 +7,7 @@
       1
       (* n (factorial (- n 1)))))
 
-(define pi 3.14159265)
+(define pi 3.1415926535)
 
 (define (sine x . n)
   (cond ((not (null? n))
@@ -21,6 +21,10 @@
   (if (= x 1)
       0
       (sine (- (/ pi 2) x))))
+
+(define (tangent x)
+  (/ (cosine x)
+     (sine x)))
    
 (define (char->operator char)
   (cond ((eq? char #\+) '+)

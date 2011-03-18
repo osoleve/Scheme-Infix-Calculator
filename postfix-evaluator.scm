@@ -7,6 +7,16 @@
       1
       (* n (factorial (- n 1)))))
 
+(define (sine x . n)
+  (cond ((not (null? n))
+         (cond ((< 25 (car n))
+                0)
+               (else (- (/ (expt x (car n)) (factorial (car n)))
+                        (sine x (+ 2 (car n)))))))
+        (else (- x (sine x 3)))))
+  
+  
+   
 (define (char->operator char)
   (cond ((eq? char #\+) '+)
         ((eq? char #\-) '-)

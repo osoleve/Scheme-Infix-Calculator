@@ -7,7 +7,9 @@
       1
       (* n (factorial (- n 1)))))
 
-(define pi 3.1415926535)
+(define +pi+ 3.1415926535)
+
+;;; Trig functions! Not yet implemented.
 
 (define (sine x . n)
   (cond ((not (null? n))
@@ -20,11 +22,23 @@
 (define (cosine x)
   (if (= x 1)
       0
-      (sine (- (/ pi 2) x))))
+      (sine (- (/ +pi+ 2) x))))
 
 (define (tangent x)
   (/ (cosine x)
      (sine x)))
+
+(define (cotangent x)
+  (/ (sine x)
+     (cosine x)))
+
+(define (secant x)
+  (/ (cosine x)))
+
+(define (cosecant x)
+  (/ (sine x)))
+
+;;; /Trig Functions
    
 (define (char->operator char)
   (cond ((eq? char #\+) '+)

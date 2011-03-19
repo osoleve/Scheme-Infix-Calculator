@@ -41,9 +41,3 @@
          (cons (string->number (list->string (parse-nums eqn)))
                (tokenize (list-tail eqn (length (parse-nums eqn))))))
         (else (tokenize (cdr eqn)))))
-
-;; Need to add main loop
-;;
-;;
-;;
-;;

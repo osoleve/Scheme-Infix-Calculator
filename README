@@ -1,7 +1,7 @@
 Scheme Infix Calculator
 Andrew Levenson, 2011
 
-Written in Guile Scheme 1.8.8
+Written in Guile Scheme 1.8.8 (converted to Racket).
 
 This project comes with the "it works on my machine" guarantee. Nothing else. I'd like to say it's released under the GPL, but I'm not sure exactly what that means. 
 

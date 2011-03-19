@@ -1,5 +1,5 @@
 (for-each (lambda (file)
-            (load-from-path file))
+            (load-relative file))
           '("shunting-yard.scm"))
 
 (define (factorial n)
@@ -68,13 +68,11 @@
              (%postfix-eval (cdr eqn) (cons (eval
                                              `(,(char->operator (car eqn))
                                                ,(cadr stack)
-                                               ,(car stack))
-                                             (interaction-environment))
+                                               ,(car stack)))
                                             (cddr stack)))
              (%postfix-eval (cdr eqn) (cons (eval
                                              `(,(char->operator (car eqn))
-                                               ,(car stack))
-                                             (interaction-environment))
+                                               ,(car stack)))
                                             (cdr stack)))))
         (else (%postfix-eval (cdr eqn) stack))))
   

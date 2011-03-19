@@ -1,5 +1,5 @@
 (for-each (lambda (file)
-            (load-from-path file))
+            (load-relative file))
           '("shunting-yard.scm"
             "rd-parser.scm"
             "postfix-evaluator.scm"))
